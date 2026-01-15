@@ -198,19 +198,18 @@ Route::get('/admin/dashboard', function () {
 
 - **Step 1: Move Assets (CSS, JS, Images, Fonts)**
 
-1.Copy the css, js, images, and fonts folders.
-
-2.Paste them into your Laravel project's public folder.
+1. Copy the `css`, `js`, `images`, and `fonts` folders  
+2. Paste them into your Laravel project's **public** folder  
 
         Path: your-project/public/
 
 - **Step 2: Create the "Master Layout"**
 
-1.Go to resources/views/layouts/.
+1. Go to resources/views/layouts/.
 
-2.Create a new file called site.blade.php.
+2. Create a new file called site.blade.php.
 
-3.Open the index.html, copy everything, and paste it into site.blade.php.    
+3. Open the index.html, copy everything, and paste it into site.blade.php.    
 
 - **Step 3: Clean up the Master Layout"**
   
@@ -231,9 +230,9 @@ Then, fix the links for the CSS and JS files so Laravel can find them. Change:
 
 Now, you will make your welcome.blade.php (your homepage) use that master layout.
 
-1.Open resources/views/welcome.blade.php.
+1. Open resources/views/welcome.blade.php.
 
-2.Delete everything inside and replace it with:
+2. Delete everything inside and replace it with:
 
 ```PHP
 @extends('layouts.site')
@@ -263,10 +262,10 @@ Route::get('/contact', function () {
 
 ```
 
-## Login,Logout and Registration:
+## Login, Logout, and Registration:
 
-- **If he is user and logged in will see my dashboard and logout option if he is n't logged in will see register and login**
-- **if he is admin only see log out and dashboard**
+- **If he is a user and logged in, he will see my dashboard and logout option; if he isn't logged in, he will see register and login**
+- **if he is an admin, only see log out and dashboard**
 
 ```PHP
 
@@ -308,7 +307,50 @@ Route::get('/contact', function () {
     @endauth
 @endif
 ```
+## User/Admin after logging in, they will see the website first:
 
+- **Step 1: Change the Login Redirect Logic"**
 
+Open the file: app/Http/Controllers/Auth/AuthenticatedSessionController.php
 
+```PHP
+    public function store(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        // Check user_type and redirect accordingly
+        if ($request->user()->user_type === 'admin') {
+            return redirect()->intended('/');
+        }
+
+    return redirect()->intended('/');
+    }
+```
+- **Step 2: Change the "HOME" constant**
+Open: app/Providers/RouteServiceProvider.php (or app/Http/Requests/Auth/LoginRequest.php in some versions).
+
+Find this line:
+
+```PHP
+public const HOME = '/dashboard';
+
+```
+
+Change it to:
+
+```PHP
+public const HOME = '/';
+
+```
+
+- **Step 3: Handle the Registration Redirect**
+
+Open: app/Http/Controllers/Auth/RegisteredUserController.php
+
+```PHP
+return redirect('/');
+
+```
 
