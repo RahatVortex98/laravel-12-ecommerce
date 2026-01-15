@@ -353,4 +353,54 @@ Open: app/Http/Controllers/Auth/RegisteredUserController.php
 return redirect('/');
 
 ```
+- **2 ways to mentioned path:**
+
+Option 1: Use the url() helper
+
+```PHP
+<a class="navbar-brand" href="{{ url('/') }}">
+```
+Option 2: Use the route() helper with a name. If you want to keep using the route() function, you must first name the route in routes/web.php
+
+```PHP
+// In routes/web.php
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
+```
+HTML to use that name:
+
+```PHP
+<a class="navbar-brand" href="{{ route('home') }}">
+
+```
+
+## Adding Group By Route For user & admin:
+
+```PHP
+
+//Authenticated User can acess this routes->
+Route::middleware(['auth','verified'])->group(function(){
+
+    Route::get('/dashboard',function(){
+        return view('dashboard');})->name('dashboard');
+    
+
+
+});
+
+
+
+Route::middleware(['auth',AdminMiddleware::class])->group(function(){
+    //admin's route add here!
+
+    Route::get('admin/dashboard', function () {
+        return view('admin_dashboard');})->name('admin.dashboard');
+
+
+
+});
+```
+  
 
