@@ -385,22 +385,52 @@ Route::middleware(['auth','verified'])->group(function(){
 
     Route::get('/dashboard',function(){
         return view('dashboard');})->name('dashboard');
-    
-
-
-});
-
-
-
+    });
 Route::middleware(['auth',AdminMiddleware::class])->group(function(){
     //admin's route add here!
 
     Route::get('admin/dashboard', function () {
         return view('admin_dashboard');})->name('admin.dashboard');
-
-
-
 });
 ```
   
+## Admin Template Integration:
+
+
+- **Step 1: The Recommended Folder Structure**
+  
+```Plaintext
+public/
+├── admin/             <-- New Admin Template files
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   └── fonts/
+├── css/               <-- Existing Frontend files
+├── js/                <-- Existing Frontend files
+├── images/            <-- Existing Frontend files
+└── fonts/             <-- Existing Frontend files
+```
+
+- **Step 2: Link Them In Your admin_dashboard.blade.php**
+
+For CSS:
+
+```HTML
+<link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
+```
+For Images:
+
+```HTML
+<link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
+```
+
+For JS:
+
+```HTML
+<script src="{{ asset('admin/js/custom.js') }}"></script>
+```
+
+
+
 
