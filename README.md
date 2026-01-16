@@ -431,6 +431,43 @@ For JS:
 <script src="{{ asset('admin/js/custom.js') }}"></script>
 ```
 
+## Controllers
+
+Admin Controller:
+
+```CMD
+php artisan make:controller AdminController
+```
+User Controller:
+
+```CMD
+php artisan make:controller UserController
+```
 
 
 
+## Blade templating:
+
+To make this clean, we use two main keywords:
+
+1. @yield('something'): This goes in the Master Layout. It’s like a placeholder or a "hole" where content will be injected later.
+
+2. @section('something'): This goes in the Child Page. It contains the actual HTML you want to put into that hole.
+
+main blade->admin_dashboard.blade.php:
+
+```PHP
+@yield('addCategory')
+```
+
+child blade->addCategory.blade.php:
+
+```PHP
+@extends('admin-dashboard')
+@section('addCategory')
+
+    //You're code here.
+
+@endsection
+
+```
